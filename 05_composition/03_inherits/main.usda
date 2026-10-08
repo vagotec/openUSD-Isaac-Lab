@@ -1,0 +1,71 @@
+#usda 1.0
+# Documentation: 05_03 - Inherits
+# Goal: Understand reusable inherited opinions.
+# Key concepts:
+# - inherits: Composition arc for shared opinions.
+# - Class prim: Common source of inherited properties.
+# - Composition strength: Determines overriding opinions.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 03 inherits lesson.
+(
+    defaultPrim = "World"
+)
+
+class Xform "RobotClass"
+{
+    def Cube "Body"
+    {
+        double size = 2
+
+        double3 xformOp:translate = (0, 0, 1)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+
+        color3f[] primvars:displayColor = [
+            (0.2, 0.5, 0.9)
+        ]
+    }
+
+    def Sphere "Head"
+    {
+        double radius = 0.75
+
+        double3 xformOp:translate = (0, 0, 3)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+}
+
+
+def Xform "World"
+{
+    def Xform "Robot_A" (
+        prepend inherits = </RobotClass>
+    )
+    {
+        double3 xformOp:translate = (-3, 0, 0)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+
+
+    def Xform "Robot_B" (
+        prepend inherits = </RobotClass>
+    )
+    {
+        double3 xformOp:translate = (3, 0, 0)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+}

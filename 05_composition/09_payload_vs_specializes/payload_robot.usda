@@ -1,0 +1,27 @@
+#usda 1.0
+# Documentation: 05_09 - Payloads vs Specializes
+# Goal: Compare loading composition with specialization.
+# Key concepts:
+# - Payload: Loadable composition arc.
+# - Specializes: Supplies fallback opinions.
+# - Composition arc: Connects authored scene descriptions.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 09 payload vs specializes lesson.
+(
+    defaultPrim = "Robot"
+)
+
+def Xform "Robot"
+{
+    def Cube "Body"
+    {
+        double size = 4
+
+        color3f[] primvars:displayColor = [
+            (0.9, 0.2, 0.1)
+        ]
+    }
+}

@@ -1,0 +1,25 @@
+#usda 1.0
+# Documentation: 01_01 - Stage and Prim
+# Goal: Understand how a USD stage contains prims.
+# Key concepts:
+# - Stage: The composed scene opened by OpenUSD.
+# - Prim: A scene object identified by its USD path.
+# - defaultPrim: The entry point of a USD asset.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 01 basics lesson.
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Cube "MyCube"
+    {
+        double size = 2
+        color3f[] primvars:displayColor = [(0.1, 0.4, 1.0)]
+    }
+}

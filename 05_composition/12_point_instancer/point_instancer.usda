@@ -1,0 +1,75 @@
+#usda 1.0
+# Documentation: 05_12 - PointInstancer
+# Goal: Understand large groups of repeated geometry.
+# Key concepts:
+# - PointInstancer: Efficiently represents repeated prototypes.
+# - protoIndices: Selects the prototype for each instance.
+# - positions: Stores positions of individual instances.
+
+
+
+# Goal:
+# Create ten cubes using one PointInstancer.
+# Understand prototypes, protoIndices, and positions.
+
+(
+    # defaultPrim: Default entry point of the USD asset.
+    defaultPrim = "World"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# Xform: Groups objects and supports transformations.
+def Xform "World"
+{
+    # PointInstancer: Creates many instances from prototypes.
+    # Boxes: Name of the instancer prim.
+    def PointInstancer "Boxes"
+    {
+        # rel: Defines a relationship to another prim.
+        # prototypes: Lists the geometry sources.
+        # The first target receives prototype index 0.
+        rel prototypes = </World/Boxes/Prototypes/CubePrototype>
+
+        # int[]: Array of integer values.
+        # protoIndices: Selects a prototype for each instance.
+        # 0: Use the first prototype in the prototypes relationship.
+        # Ten entries create ten instances.
+        int[] protoIndices = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        # point3f[]: Array of 3D positions using float values.
+        # positions: Defines the center position of each instance.
+        # Each cube has size 2, so Z=1 keeps it above the ground.
+        point3f[] positions = [
+            (1, 1, 1),
+            (4, 1, 1),
+            (7, 1, 1),
+            (10, 1, 1),
+            (13, 1, 1),
+            (16, 1, 1),
+            (19, 1, 1),
+            (22, 1, 1),
+            (25, 1, 1),
+            (28, 1, 1)
+        ]
+
+        # Scope: Organizes prims without adding a transformation.
+        # Prototypes: Container for reusable source geometry.
+        def Scope "Prototypes"
+        {
+            # Cube: Geometry used by all ten instances.
+            # CubePrototype: Name of the source geometry.
+            def Cube "CubePrototype"
+            {
+                # double: 64-bit floating-point value.
+                # size: Length of each cube edge.
+                double size = 2
+
+                # color3f[]: Array of RGB color values.
+                # primvars:displayColor: Standard display color.
+                color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+            }
+        }
+    }
+}

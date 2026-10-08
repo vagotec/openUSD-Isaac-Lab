@@ -1,0 +1,18 @@
+#usda 1.0
+# Documentation: 04_02 - Layer Strength
+# Goal: Understand stronger and weaker layer opinions.
+# Key concepts:
+# - Layer strength: Determines which authored opinion wins.
+# - Opinion: A value or metadata statement in a layer.
+# - Composition: Combines opinions into a scene.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 02 layer strength lesson.
+(
+    subLayers = [
+        @robot_override.usda@,
+        @robot.usda@
+    ]
+)

@@ -1,0 +1,44 @@
+#usda 1.0
+# Documentation: 05_07 - Variants vs References
+# Goal: Compare variant selection with external asset references.
+# Key concepts:
+# - VariantSet: Defines alternative authored opinions.
+# - Variant selection: Chooses one alternative.
+# - Reference: Composes content from another prim or asset.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 07 variant vs reference lesson.
+(
+    defaultPrim = "World"
+)
+
+def Xform "World"
+{
+    def Xform "Robot" (
+        prepend references = @robot.usda@
+
+        variants = {
+            string bodyType = "large"
+        }
+
+        prepend variantSets = "bodyType"
+    )
+    {
+        variantSet "bodyType" = {
+
+            "large"
+            {
+                over "Body"
+                {
+                    double size = 4
+
+                    color3f[] primvars:displayColor = [
+                        (0.9, 0.2, 0.1)
+                    ]
+                }
+            }
+        }
+    }
+}

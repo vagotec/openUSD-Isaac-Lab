@@ -1,0 +1,72 @@
+#usda 1.0
+# Documentation: 06_01 - Variant Sets
+# Goal: Understand selectable alternatives in USD assets.
+# Key concepts:
+# - VariantSet: Collection of named alternatives.
+# - Variant: One selectable set of authored opinions.
+# - Selection: Determines the active alternative.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 01 body variant lesson.
+(
+    defaultPrim = "World"
+)
+
+def Xform "World"
+{
+    def Xform "Robot" (
+        variants = {
+            string bodyType = "small"
+        }
+        prepend variantSets = "bodyType"
+    )
+    {
+        def Cube "Body"
+        {
+            double3 xformOp:translate = (0, 0, 1)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate"
+            ]
+        }
+
+        def Sphere "Head"
+        {
+            double radius = 0.75
+            double3 xformOp:translate = (0, 0, 3)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate"
+            ]
+        }
+
+        variantSet "bodyType" = {
+
+            "small"
+            {
+                over "Body"
+                {
+                    double size = 1.5
+
+                    color3f[] primvars:displayColor = [
+                        (0.2, 0.5, 0.9)
+                    ]
+                }
+            }
+
+            "large"
+            {
+                over "Body"
+                {
+                    double size = 4
+
+                    color3f[] primvars:displayColor = [
+                        (0.9, 0.2, 0.1)
+                    ]
+                }
+            }
+        }
+    }
+}

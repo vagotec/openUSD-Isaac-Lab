@@ -1,0 +1,87 @@
+#usda 1.0
+# Documentation: 02_02 - Time Samples
+# Goal: Understand animation through time-sampled attributes.
+# Key concepts:
+# - timeSamples: Attribute values at specific time codes.
+# - TimeCode: Selects the time used to evaluate an attribute.
+# - Interpolation: Determines values between authored samples.
+
+
+
+# Goal:
+# Animate a robot gripper finger using time samples.
+# Understand time codes, interpolation, and animated attributes.
+
+(
+    # defaultPrim: Entry point of this USD asset.
+    defaultPrim = "World"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+
+    # startTimeCode: First frame of the animation.
+    startTimeCode = 1
+
+    # endTimeCode: Last frame of the animation.
+    endTimeCode = 60
+
+    # timeCodesPerSecond: Number of USD time codes per second.
+    timeCodesPerSecond = 30
+
+    # framesPerSecond: Preferred playback frame rate.
+    framesPerSecond = 30
+)
+
+# Xform: Transformable grouping prim.
+def Xform "World"
+{
+    # Gripper: Parent of both fingers.
+    def Xform "Gripper"
+    {
+        # LeftFinger: Stationary finger.
+        def Cube "LeftFinger"
+        {
+            # double: 64-bit floating-point value.
+            # size: Cube edge length.
+            double size = 1
+
+            # double3: Three floating-point coordinates.
+            # xformOp:translate: Translation in X, Y and Z.
+            double3 xformOp:translate = (1, 1, 0.5)
+
+            # uniform: Not time-varying.
+            # token[]: Array of string-like identifiers.
+            # xformOpOrder: Ordered list of active transforms.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # color3f[]: Array of RGB colors.
+            # primvars:displayColor: Standard display color.
+            color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+        }
+
+        # RightFinger: Animated finger.
+        def Cube "RightFinger"
+        {
+            # Cube edge length.
+            double size = 1
+
+            # xformOp:translate: Transform attribute.
+            # .timeSamples: Values assigned at specific time codes.
+            # 1, 30, 60: Animation frame numbers.
+            # Values: Translation vectors (X, Y, Z).
+            #
+            # OpenUSD interpolates between these samples.
+            double3 xformOp:translate.timeSamples = {
+                1: (3, 1, 0.5),
+                30: (2, 1, 0.5),
+                60: (3, 1, 0.5)
+            }
+
+            # Activate the animated translation operation.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # Orange display color.
+            color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+        }
+    }
+}

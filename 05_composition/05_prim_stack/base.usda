@@ -1,0 +1,27 @@
+#usda 1.0
+# Documentation: 05_05 - Prim Stack
+# Goal: Inspect all prim specifications contributing to a prim.
+# Key concepts:
+# - Prim stack: Ordered specifications composing one prim.
+# - PrimSpec: Authored description of a prim in a layer.
+# - Composition: Combines the prim stack into a result.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 05 prim stack lesson.
+
+def Xform "World"
+{
+    def Xform "Robot"
+    {
+        def Cube "Body"
+        {
+            double size = 2
+
+            color3f[] primvars:displayColor = [
+                (0.2, 0.5, 0.9)
+            ]
+        }
+    }
+}

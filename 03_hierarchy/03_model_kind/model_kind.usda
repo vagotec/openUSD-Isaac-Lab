@@ -1,0 +1,83 @@
+#usda 1.0
+# Documentation: 03_03 - Model and Kind
+# Goal: Understand model classification and valid model hierarchy.
+# Key concepts:
+# - kind: Metadata describing a model's role.
+# - group: Model that contains other models.
+# - component: Independently meaningful model.
+
+
+
+# Goal:
+# Understand how kind classifies models and their components.
+# Create a gripper containing two fingers.
+
+(
+    # defaultPrim: Entry point of this USD asset.
+    defaultPrim = "World"
+
+    # upAxis: Defines the vertical axis.
+    upAxis = "Z"
+)
+
+# def: Defines a prim.
+# Xform: Groups objects and supports transformations.
+# World: Root prim of our scene.
+# kind: Model classification metadata.
+# group: A model that contains other models.
+def Xform "World" (
+    kind = "group"
+)
+{
+    # Gripper is a model containing two fingers.
+    # kind: Metadata describing the model's role.
+    # component: Marks Gripper as an independent model.
+    def Xform "Gripper" (
+        kind = "component"
+    )
+    {
+        # LeftFinger is a part of the Gripper model.
+        # subcomponent: Identifies a part inside a component.
+        # Cube: Defines visible cube geometry.
+        def Cube "LeftFinger" (
+            kind = "subcomponent"
+        )
+        {
+            # double: 64-bit floating-point data type.
+            # size: Length of each cube edge.
+            double size = 1
+
+            # double3: Three double values for X, Y and Z.
+            # xformOp:translate: Positions the cube center.
+            double3 xformOp:translate = (1, 1, 0.5)
+
+            # uniform: Attribute is not intended to vary over time.
+            # token[]: Array of token values.
+            # xformOpOrder: Defines active transforms and their order.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # color3f[]: Array of RGB colors.
+            # primvars:displayColor: Standard display color primvar.
+            color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+        }
+
+        # RightFinger is another part of the same model.
+        # subcomponent: Identifies a part of Gripper.
+        def Cube "RightFinger" (
+            kind = "subcomponent"
+        )
+        {
+            # Cube edge length.
+            double size = 1
+
+            # Position the second finger along the X axis.
+            double3 xformOp:translate = (3, 1, 0.5)
+
+            # Apply the translation operation.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # Give the second finger an orange display color.
+            color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+        }
+    }
+}

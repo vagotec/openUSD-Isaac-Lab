@@ -1,0 +1,38 @@
+#usda 1.0
+# Documentation: 05_11 - Native Instancing
+# Goal: Understand memory-efficient native USD instances.
+# Key concepts:
+# - instanceable: Enables instance sharing.
+# - Prototype: Shared composed scene representation.
+# - Instance: Prim using a shared prototype.
+
+
+
+# Goal:
+# Define reusable cube geometry for native USD instancing.
+
+(
+    # defaultPrim: The default entry point of this USD asset.
+    defaultPrim = "CubeAsset"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# def: Defines a prim.
+# Xform: Groups objects and supports transformations.
+# CubeAsset: The root of our reusable asset.
+def Xform "CubeAsset"
+{
+    # Cube: Typed schema representing cube geometry.
+    def Cube "Geometry"
+    {
+        # double: A 64-bit floating-point value.
+        # size: Length of each cube edge.
+        double size = 2
+
+        # color3f[]: Array of RGB colors.
+        # primvars:displayColor: Standard display color primvar.
+        color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+    }
+}

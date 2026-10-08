@@ -1,0 +1,27 @@
+#usda 1.0
+# Documentation: 05_08 - References vs Payloads
+# Goal: Compare immediate references with loadable payloads.
+# Key concepts:
+# - Reference: Includes reusable content in composition.
+# - Payload: Allows selective loading of content.
+# - Load rules: Control which payloads are included.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 08 reference vs payload lesson.
+(
+    defaultPrim = "Robot"
+)
+
+def Xform "Robot"
+{
+    def Cube "Body"
+    {
+        double size = 4
+
+        color3f[] primvars:displayColor = [
+            (0.9, 0.2, 0.1)
+        ]
+    }
+}

@@ -1,0 +1,29 @@
+#usda 1.0
+# Documentation: 05_10 - List Editing
+# Goal: Understand how USD list operations affect composition.
+# Key concepts:
+# - prepend: Adds items before weaker list contributions.
+# - delete: Removes matching items from weaker lists.
+# - Reference list: Stores composition references on a prim.
+
+
+
+# Goal:
+# Understand how list editing modifies references.
+# prepend adds a reference; delete removes a reference
+# that was authored in a weaker layer.
+
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    # Create a prim that references the cube from base.usda.
+    def "Object" (
+        prepend references = @./base.usda@</World/Box>
+    )
+    {
+    }
+}

@@ -1,0 +1,49 @@
+#usda 1.0
+# Documentation: 01_07 - Primvars
+# Goal: Understand geometry-related primitive variables.
+# Key concepts:
+# - primvars: Namespace for geometry-related data.
+# - displayColor: Standard display-color primvar.
+# - Interpolation: Describes how primvar values map to geometry.
+
+
+
+# Goal:
+# Create a red cube and understand how OpenUSD stores
+# geometry properties, transformations, and primvars.
+
+(
+    # Prim opened by default when loading this asset.
+    defaultPrim = "World"
+
+    # Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# Xform groups objects and can transform its children.
+# Xform itself does not create visible geometry.
+def Xform "World"
+{
+    # Cube is a typed schema for cube geometry.
+    def Cube "Box"
+    {
+        # Length of each cube edge.
+        double size = 2
+
+        # Move the cube so its geometry starts at (0, 0, 0).
+        # A cube with size 2 extends 1 unit around its center.
+        double3 xformOp:translate = (1, 1, 1)
+
+        # Specify which transformation operations are active
+        # and in which order they are evaluated.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        # primvars: is a property namespace.
+        # displayColor is a standard primvar used for display color.
+        # (1, 0, 0) represents red (RGB).
+        color3f[] primvars:displayColor = [(1, 0, 0)] (
+            # One color value applies to the entire cube.
+            interpolation = "constant"
+        )
+    }
+}

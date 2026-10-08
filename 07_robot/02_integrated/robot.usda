@@ -1,0 +1,101 @@
+#usda 1.0
+# Documentation: 07_02 - Integrated Robot
+# Goal: Combine multiple OpenUSD concepts in one robot scene.
+# Key concepts:
+# - Reference: Reuses the external gripper asset.
+# - Collection: Groups the gripper fingers.
+# - Time samples: Animate the right gripper finger.
+
+
+
+# Goal:
+# Combine references, model kind, hierarchy, variants,
+# collections, display colors, and animation in one scene.
+
+(
+    # defaultPrim: Main entry point of the scene.
+    defaultPrim = "World"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+
+    # Animation range and time-code scale.
+    startTimeCode = 1
+    endTimeCode = 60
+    timeCodesPerSecond = 30
+    framesPerSecond = 30
+)
+
+# World: Root model grouping the robot.
+# kind = group: Parent model containing component models.
+def Xform "World" (
+    kind = "group"
+)
+{
+    # Robot: Another model group.
+    # variantSets: Names of available variant sets.
+    # variants: Default selection for a variant set.
+    def Xform "Robot" (
+        kind = "group"
+        prepend variantSets = "appearance"
+        variants = {
+            string appearance = "blue"
+        }
+    )
+    {
+        # uniform token: Non-animated string-like attribute.
+        # expansionRule = explicitOnly: Only named prims are members.
+        uniform token collection:gripperParts:expansionRule = "explicitOnly"
+
+        # rel: Relationship pointing to other prims.
+        # collection:gripperParts:includes: Collection members.
+        # prepend: List-edit operation adding relationship targets.
+        prepend rel collection:gripperParts:includes = [
+            </World/Robot/Gripper/LeftFinger>,
+            </World/Robot/Gripper/RightFinger>
+        ]
+
+        # Base: Visible robot base.
+        def Cube "Base" (
+            kind = "component"
+        )
+        {
+            double size = 1
+            double3 xformOp:translate = (2, 2, 0.5)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        # Gripper: References geometry from an external asset.
+        # @...@: Asset path.
+        # ./assets/gripper.usda: Path relative to this layer.
+        # </Gripper>: Prim selected inside the external asset.
+        def Xform "Gripper" (
+            prepend references = @./assets/gripper.usda@</Gripper>
+        )
+        {
+            # Place the entire referenced gripper above the base.
+            double3 xformOp:translate = (2, 2, 1.5)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        # variantSet: Named alternatives for scene opinions.
+        # appearance: Name of this variant set.
+        variantSet "appearance" = {
+            # blue: First alternative.
+            "blue" {
+                over "Base" {
+                    # Blue display color for the base.
+                    color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+                }
+            }
+
+            # orange: Second alternative.
+            "orange" {
+                over "Base" {
+                    # Orange display color for the base.
+                    color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+                }
+            }
+        }
+    }
+}

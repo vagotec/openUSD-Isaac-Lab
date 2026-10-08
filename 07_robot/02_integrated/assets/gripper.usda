@@ -1,0 +1,84 @@
+#usda 1.0
+# Documentation: 07_02 - Integrated Robot
+# Goal: Combine multiple OpenUSD concepts in one robot scene.
+# Key concepts:
+# - Reference: Reuses the external gripper asset.
+# - Collection: Groups the gripper fingers.
+# - Time samples: Animate the right gripper finger.
+
+
+
+# Goal:
+# Define a reusable animated gripper asset.
+# Demonstrate hierarchy, model kind, transforms, and time samples.
+
+(
+    # defaultPrim: Default asset entry point.
+    defaultPrim = "Gripper"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+
+    # startTimeCode / endTimeCode: Animation frame range.
+    startTimeCode = 1
+    endTimeCode = 60
+
+    # timeCodesPerSecond: USD time-code scale.
+    timeCodesPerSecond = 30
+
+    # framesPerSecond: Preferred playback frame rate.
+    framesPerSecond = 30
+)
+
+# Xform: Transformable parent.
+# kind: Model classification metadata.
+# component: An independent model.
+def Xform "Gripper" (
+    kind = "component"
+)
+{
+    # Cube: Left gripper finger.
+    def Cube "LeftFinger" (
+        # subcomponent: Part of a component model.
+        kind = "subcomponent"
+    )
+    {
+        # double: 64-bit floating-point value.
+        # size: Cube edge length.
+        double size = 0.5
+
+        # double3: Three 64-bit coordinates.
+        # xformOp:translate: Position of the cube center.
+        double3 xformOp:translate = (-0.75, 0, 0.25)
+
+        # uniform: Non-time-varying attribute.
+        # token[]: Array of string-like identifiers.
+        # xformOpOrder: Ordered list of active transforms.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        # color3f[]: Array of RGB colors.
+        # primvars:displayColor: Standard display color.
+        color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+    }
+
+    # Cube: Animated right gripper finger.
+    def Cube "RightFinger" (
+        kind = "subcomponent"
+    )
+    {
+        double size = 0.5
+
+        # .timeSamples: Values at specific USD time codes.
+        # 1: Open; 30: Closed; 60: Open again.
+        # Intermediate values are interpolated.
+        double3 xformOp:translate.timeSamples = {
+            1: (0.75, 0, 0.25),
+            30: (0.25, 0, 0.25),
+            60: (0.75, 0, 0.25)
+        }
+
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+    }
+}

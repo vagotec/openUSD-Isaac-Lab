@@ -1,0 +1,48 @@
+#usda 1.0
+# Documentation: 05_01 - References
+# Goal: Understand reusable assets through USD references.
+# Key concepts:
+# - Reference: Composes prim data from another asset.
+# - Asset path: Locates an external USD layer.
+# - Prim path: Selects a prim inside the referenced asset.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 01 references lesson.
+(
+    defaultPrim = "Robot"
+)
+
+def Xform "Robot"
+{
+    def Cube "Body"
+    {
+        double size = 2
+
+        double3 xformOp:translate = (0, 0, 1)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+
+        color3f[] primvars:displayColor = [
+            (0.2, 0.5, 0.9)
+        ]
+    }
+
+    def Sphere "Head"
+    {
+        double radius = 0.75
+
+        double3 xformOp:translate = (0, 0, 3)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+
+        color3f[] primvars:displayColor = [
+            (0.9, 0.4, 0.1)
+        ]
+    }
+}

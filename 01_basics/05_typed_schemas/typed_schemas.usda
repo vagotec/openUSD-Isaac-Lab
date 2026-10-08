@@ -1,0 +1,50 @@
+#usda 1.0
+# Documentation: 01_05 - Typed Schemas
+# Goal: Understand schema types such as Xform and Cube.
+# Key concepts:
+# - Typed schema: Defines the primary type of a prim.
+# - Xform: Supports ordered transformation operations.
+# - Cube: Provides built-in cube geometry.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 05 typed schemas lesson.
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Cube "MyCube"
+    {
+        double size = 2
+
+        double3 xformOp:translate = (1, 1, 1)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+
+    def Sphere "MySphere"
+    {
+        double radius = 1
+
+        double3 xformOp:translate = (5, 1, 1)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+
+    def Xform "MyXform"
+    {
+        double3 xformOp:translate = (8, 1, 1)
+
+        uniform token[] xformOpOrder = [
+            "xformOp:translate"
+        ]
+    }
+}

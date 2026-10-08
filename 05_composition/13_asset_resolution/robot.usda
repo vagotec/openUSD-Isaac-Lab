@@ -1,0 +1,47 @@
+#usda 1.0
+# Documentation: 05_13 - Asset Resolution
+# Goal: Understand how external USD asset paths are resolved.
+# Key concepts:
+# - Asset resolver: Resolves an asset path to a resource.
+# - Relative path: Resolved against the containing layer.
+# - Reference: Connects an external asset to the scene.
+
+
+
+# Goal:
+# Reference an external gripper asset using a relative path.
+# Understand how OpenUSD resolves asset paths.
+
+(
+    # defaultPrim: Entry point of the main scene.
+    defaultPrim = "World"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# Xform: Root of the scene.
+def Xform "World"
+{
+    # Xform: Transformable parent for the robot.
+    def Xform "Robot"
+    {
+        # Gripper: Prim receiving the referenced asset.
+        def Xform "Gripper" (
+            # prepend: Add the reference to the composition list.
+            # references: Composition arc to another USD layer.
+            #
+            # @...@: USD asset path syntax.
+            # ./: Path relative to this USDA file.
+            # assets/gripper.usda: External asset filename.
+            # </Gripper>: Prim selected from the external asset.
+            #
+            # The referenced children become part of this prim.
+            prepend references = @./assets/gripper.usda@</Gripper>
+        )
+        {
+            # No local geometry is needed.
+            # The referenced asset supplies both fingers.
+        }
+    }
+}

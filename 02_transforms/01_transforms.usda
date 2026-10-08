@@ -1,0 +1,56 @@
+#usda 1.0
+# Documentation: 02_01 - Transforms
+# Goal: Understand translation, rotation, scale, and operation order.
+# Key concepts:
+# - xformOp: An individual transformation operation.
+# - xformOpOrder: Defines the order of transformations.
+# - Local transform: Transform relative to the parent prim.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 02 transforms lesson.
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Xform "Robot"
+    {
+        def Cube "Body"
+        {
+            double size = 2
+
+            double3 xformOp:translate = (0, 0, 1)
+            float3 xformOp:rotateXYZ = (0, 0, 0)
+            float3 xformOp:scale = (1.5, 1, 1)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate",
+                "xformOp:rotateXYZ",
+                "xformOp:scale"
+            ]
+
+            color3f[] primvars:displayColor = [
+                (0.2, 0.5, 0.9)
+            ]
+        }
+
+        def Sphere "Head"
+        {
+            double radius = 0.75
+
+            double3 xformOp:translate = (0, 0, 3)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate"
+            ]
+
+            color3f[] primvars:displayColor = [
+                (0.9, 0.4, 0.1)
+            ]
+        }
+    }
+}

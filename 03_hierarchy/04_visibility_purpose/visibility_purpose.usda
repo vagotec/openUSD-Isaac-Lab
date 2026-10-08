@@ -1,0 +1,82 @@
+#usda 1.0
+# Documentation: 03_04 - Visibility and Purpose
+# Goal: Understand visibility and intended rendering purpose.
+# Key concepts:
+# - visibility: Controls whether an object is visible.
+# - purpose: Classifies render, proxy, or guide geometry.
+# - ComputeVisibility: Evaluates inherited visibility.
+
+
+
+# Goal:
+# Understand how visibility and purpose control
+# the presentation of geometry in OpenUSD.
+
+(
+    # defaultPrim: Entry point of this USD asset.
+    defaultPrim = "World"
+
+    # upAxis: Defines the vertical axis.
+    upAxis = "Z"
+)
+
+# Xform: Groups objects and supports transformations.
+# World: Root prim of the scene.
+def Xform "World"
+{
+    # Group both fingers under one parent.
+    def Xform "Gripper"
+    {
+        # Cube: Visible geometry representing the left finger.
+        def Cube "LeftFinger"
+        {
+            # double: 64-bit floating-point value.
+            # size: Cube edge length.
+            double size = 1
+
+            # double3: Three coordinates (X, Y, Z).
+            # xformOp:translate: Position of the cube center.
+            double3 xformOp:translate = (1, 1, 0.5)
+
+            # uniform: Not intended to vary over time.
+            # token[]: Array of string-like identifiers.
+            # xformOpOrder: Active transforms and their order.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # token: String-like identifier.
+            # visibility: Controls whether geometry is visible.
+            # inherited: Use the visibility of the parent hierarchy.
+            token visibility = "inherited"
+
+            # purpose: Defines the intended use of the geometry.
+            # default: Normal geometry.
+            uniform token purpose = "default"
+
+            # color3f[]: Array of RGB colors.
+            # primvars:displayColor: Standard display color.
+            color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+        }
+
+        # Cube: Geometry representing the right finger.
+        def Cube "RightFinger"
+        {
+            # Set the cube edge length.
+            double size = 1
+
+            # Position the cube to the right of LeftFinger.
+            double3 xformOp:translate = (3, 1, 0.5)
+
+            # Activate the translation operation.
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+
+            # invisible: Hide this cube.
+            token visibility = "inherited"
+
+            # default: Normal geometry.
+            uniform token purpose = "default"
+
+            # Orange display color.
+            color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+        }
+    }
+}

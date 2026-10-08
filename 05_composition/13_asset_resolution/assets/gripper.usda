@@ -1,0 +1,62 @@
+#usda 1.0
+# Documentation: 05_13 - Asset Resolution
+# Goal: Understand how external USD asset paths are resolved.
+# Key concepts:
+# - Asset resolver: Resolves an asset path to a resource.
+# - Relative path: Resolved against the containing layer.
+# - Reference: Connects an external asset to the scene.
+
+
+
+# Goal:
+# Define a reusable gripper asset in a separate USD file.
+
+(
+    # defaultPrim: Default entry point of this asset.
+    defaultPrim = "Gripper"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# def: Defines a prim.
+# Xform: Transformable parent for the gripper geometry.
+def Xform "Gripper"
+{
+    # Cube: Geometry representing the left finger.
+    def Cube "LeftFinger"
+    {
+        # double: 64-bit floating-point number.
+        # size: Length of each cube edge.
+        double size = 1
+
+        # double3: Three coordinates (X, Y, Z).
+        # xformOp:translate: Position of the finger.
+        double3 xformOp:translate = (1, 1, 0.5)
+
+        # uniform: Value does not vary over time.
+        # token[]: Array of string-like identifiers.
+        # xformOpOrder: Active transforms and their order.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        # color3f[]: Array of RGB colors.
+        # primvars:displayColor: Standard display color.
+        color3f[] primvars:displayColor = [(0.2, 0.5, 0.9)]
+    }
+
+    # Cube: Geometry representing the right finger.
+    def Cube "RightFinger"
+    {
+        # Cube edge length.
+        double size = 1
+
+        # Position of the right finger.
+        double3 xformOp:translate = (3, 1, 0.5)
+
+        # Apply the translation operation.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        # Orange display color.
+        color3f[] primvars:displayColor = [(0.9, 0.5, 0.2)]
+    }
+}

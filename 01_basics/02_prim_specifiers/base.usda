@@ -1,0 +1,20 @@
+#usda 1.0
+# Documentation: 01_02 - Prim Specifiers
+# Goal: Understand def, over, and class prim specifications.
+# Key concepts:
+# - def: Defines a prim.
+# - over: Contributes opinions to an existing prim.
+# - class: Defines reusable opinions for inheritance.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 02 prim specifiers lesson.
+
+def Xform "World"
+{
+    def Cube "Box"
+    {
+        double size = 2
+    }
+}

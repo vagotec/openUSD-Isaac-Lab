@@ -1,0 +1,73 @@
+#usda 1.0
+# Documentation: 05_11 - Native Instancing
+# Goal: Understand memory-efficient native USD instances.
+# Key concepts:
+# - instanceable: Enables instance sharing.
+# - Prototype: Shared composed scene representation.
+# - Instance: Prim using a shared prototype.
+
+
+
+# Goal:
+# Create three independently positioned instances
+# that share the same referenced cube geometry.
+
+(
+    # defaultPrim: Prim opened by default.
+    defaultPrim = "World"
+
+    # upAxis: Z is the vertical axis.
+    upAxis = "Z"
+)
+
+# Xform: Parent prim for the scene.
+def Xform "World"
+{
+    # def Xform: Defines a transformable instance root.
+    def Xform "Cube_A" (
+        # references: Composition arc to an external USD asset.
+        # @./cube.usda@: Relative path to the asset file.
+        # </CubeAsset>: Prim path inside the asset.
+        prepend references = @./cube.usda@</CubeAsset>
+
+        # instanceable: Metadata allowing USD to share
+        # the referenced prim hierarchy through a prototype.
+        instanceable = true
+    )
+    {
+        # double3: Three double values (X, Y, Z).
+        # xformOp:translate: Position of the instance root.
+        double3 xformOp:translate = (1, 1, 1)
+
+        # uniform: Value is not intended to vary over time.
+        # token[]: Array of token identifiers.
+        # xformOpOrder: Active transforms and their order.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    # Second instance of the same cube asset.
+    def Xform "Cube_B" (
+        prepend references = @./cube.usda@</CubeAsset>
+        instanceable = true
+    )
+    {
+        # Position the second instance.
+        double3 xformOp:translate = (4, 1, 1)
+
+        # Apply the translation operation.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    # Third instance of the same cube asset.
+    def Xform "Cube_C" (
+        prepend references = @./cube.usda@</CubeAsset>
+        instanceable = true
+    )
+    {
+        # Position the third instance.
+        double3 xformOp:translate = (7, 1, 1)
+
+        # Apply the translation operation.
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}

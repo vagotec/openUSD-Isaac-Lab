@@ -1,0 +1,17 @@
+#usda 1.0
+# Documentation: 04_01 - Layers
+# Goal: Understand how USD stores opinions in layers.
+# Key concepts:
+# - Layer: Stores authored USD scene descriptions.
+# - Root layer: Main layer used to open a stage.
+# - SubLayer: Contributes opinions to a layer stack.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 04 layers lesson.
+(
+    subLayers = [
+        @robot.usda@
+    ]
+)

@@ -1,0 +1,10 @@
+{
+    "python.defaultInterpreterPath": "/home/sarvg/isaacsim/kit/python/bin/python3",
+    "python.analysis.extraPaths": [
+        "/home/sarvg/isaacsim/kit/python/lib/python3.12/site-packages",
+        "/home/sarvg/isaacsim/kit/kernel/py",
+        "/home/sarvg/isaacsim/kit/plugins/bindings-python",
+        "/home/sarvg/isaacsim/python_packages",
+        "/home/sarvg/isaacsim/exts/isaacsim.simulation_app"
+    ]
+}

@@ -1,0 +1,101 @@
+#usda 1.0
+# Documentation: 07_01 - Robot Hierarchy
+# Goal: Represent a robot as a hierarchy of USD prims.
+# Key concepts:
+# - Robot root: Parent prim organizing robot components.
+# - Transform hierarchy: Defines component placement.
+# - Child prim: Represents a nested robot component.
+
+
+
+# Goal:
+# Explore OpenUSD concepts in the 01 robot hierarchy lesson.
+(
+    defaultPrim = "World"
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def Xform "Robot"
+    {
+        # ----------------------------------------------------
+        # Robot base
+        # ----------------------------------------------------
+
+        def Cube "Base"
+        {
+            double size = 1
+
+            float3 xformOp:scale = (2.5, 2.5, 0.5)
+            double3 xformOp:translate = (0, 0, 0.25)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate",
+                "xformOp:scale"
+            ]
+
+            color3f[] primvars:displayColor = [
+                (0.3, 0.3, 0.3)
+            ]
+        }
+
+
+        # ----------------------------------------------------
+        # Arm parent
+        # ----------------------------------------------------
+
+        def Xform "Arm"
+        {
+            double3 xformOp:translate = (0, 0, 0.5)
+
+            uniform token[] xformOpOrder = [
+                "xformOp:translate"
+            ]
+
+
+            # ------------------------------------------------
+            # Upper arm
+            # ------------------------------------------------
+
+            def Cube "UpperArm"
+            {
+                double size = 1
+
+                float3 xformOp:scale = (0.4, 0.4, 3)
+                double3 xformOp:translate = (0, 0, 1.5)
+
+                uniform token[] xformOpOrder = [
+                    "xformOp:translate",
+                    "xformOp:scale"
+                ]
+
+                color3f[] primvars:displayColor = [
+                    (0.2, 0.5, 0.9)
+                ]
+            }
+
+
+            # ------------------------------------------------
+            # Forearm
+            # ------------------------------------------------
+
+            def Cube "Forearm"
+            {
+                double size = 1
+
+                float3 xformOp:scale = (0.3, 0.3, 2)
+                double3 xformOp:translate = (0, 0, 4)
+
+                uniform token[] xformOpOrder = [
+                    "xformOp:translate",
+                    "xformOp:scale"
+                ]
+
+                color3f[] primvars:displayColor = [
+                    (0.9, 0.4, 0.1)
+                ]
+            }
+        }
+    }
+}
