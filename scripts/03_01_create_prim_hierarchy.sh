@@ -12,7 +12,7 @@
 set -euo pipefail
 
 PROJECT="$HOME/projects/openUSD-Isaac-Lab"
-LESSON="$PROJECT/01_basics"
+LESSON="$PROJECT/03_hierarchy"
 
 mkdir -p "$LESSON"
 
@@ -20,7 +20,7 @@ mkdir -p "$LESSON"
 # 02A - Prim hierarchy directly in USDA
 # ============================================================
 
-cat > "$LESSON/02_prim_hierarchy.usda" <<'USDA'
+cat > "$LESSON/01_prim_hierarchy.usda" <<'USDA'
 #usda 1.0
 (
     defaultPrim = "World"
@@ -178,7 +178,7 @@ echo " OpenUSD Lesson 02 created"
 echo "=================================================="
 echo
 echo "USDA:"
-echo "  $LESSON/02_prim_hierarchy.usda"
+echo "  $LESSON/01_prim_hierarchy.usda"
 echo
 echo "Python:"
 echo "  $LESSON/01_prim_hierarchy.py"
